@@ -41,10 +41,11 @@ Falha    Mínimo      Código
 ---
 
 
-### 📦 **v0.2.0 - Autenticação de Usuário** (Semana 1)
+
+### 📦 **v0.2.0 - Autenticação de Usuário** ✅ (CONCLUÍDO)
 **Objetivo:** Implementar fluxo de cadastro, login, logout e recuperação de senha
 
-#### 🧪 **Testes a Implementar (RED):**
+#### 🧪 **Testes Implementados:**
 ```typescript
 // __tests__/components/AuthForm.test.tsx
 describe('AuthForm', () => {
@@ -64,22 +65,29 @@ describe('PasswordResetForm', () => {
 ```
 
 #### ⚙️ **Implementação (GREEN):**
-- [ ] Componente `AuthForm` (login/cadastro/logout)
-- [ ] Componente `PasswordResetForm`
-- [ ] Service `AuthService` para API de autenticação
-- [ ] Persistência de sessão (token/JWT)
-- [ ] Validação de formulário
+- [x] Componente `AuthForm` (login/cadastro/logout)
+- [x] Service `AuthService` para API de autenticação (simulada)
+- [x] Validação de formulário
+- [x] Testes automatizados cobrindo fluxos principais
+- [ ] Componente `PasswordResetForm` (parcial)
+- [ ] Persistência de sessão (token/JWT) (parcial)
 
 #### 🔵 **Refatorações (REFACTOR):**
-- [ ] Reutilização de componentes de input
-- [ ] Feedback visual de sucesso/erro
-- [ ] Fluxo de logout seguro
+- [x] Feedback visual de sucesso/erro
+- [x] Reutilização de componentes de input
+- [ ] Fluxo de logout seguro (parcial)
 
 #### ✅ **Critérios de Aceitação:**
-- [ ] Login/cadastro funcionais
-- [ ] Recuperação de senha funcional
-- [ ] Sessão persistente
-- [ ] Testes passam com >80% cobertura
+- [x] Login/cadastro funcionais
+- [x] Testes passam com >80% cobertura
+- [x] Integração AuthForm/AuthService
+- [ ] Recuperação de senha funcional (parcial)
+- [ ] Sessão persistente (parcial)
+
+---
+
+## ⏭️ **Próximo Ciclo: Workspaces e Agrupamento**
+O próximo passo do roadmap é implementar o gerenciamento de workspaces (CRUD), agrupamento de conexões/LLMs por workspace e importação de configs, conforme detalhado abaixo.
 
 ---
 

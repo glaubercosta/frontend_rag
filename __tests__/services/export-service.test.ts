@@ -1,4 +1,3 @@
-describe('ExportService', () => {
 import { ExportService } from '../../src/services/ExportService';
 import * as fileSaver from 'file-saver';
 
