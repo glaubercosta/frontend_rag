@@ -2,7 +2,7 @@ import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 
 export class ExportService {
-  static async exportToExcel(data: any[], columns: { header: string; key: string }[], fileName = 'dados.xlsx') {
+  static async exportToExcel(data: Record<string, unknown>[], columns: { header: string; key: string }[], fileName = 'dados.xlsx') {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Dados');
     worksheet.columns = columns;
@@ -11,7 +11,7 @@ export class ExportService {
     saveAs(new Blob([buffer]), fileName);
   }
 
-  static exportToCSV(data: any[], columns: { header: string; key: string }[], fileName = 'dados.csv') {
+  static exportToCSV(data: Record<string, unknown>[], columns: { header: string; key: string }[], fileName = 'dados.csv') {
     const headers = columns.map(col => col.header).join(',');
     const rows = data.map(row => columns.map(col => row[col.key]).join(','));
     const csv = [headers, ...rows].join('\n');

@@ -26,8 +26,12 @@ const AuthForm: React.FC = () => {
         await AuthService.signup(email, senha);
       }
       // Aqui você pode redirecionar ou atualizar o estado global de autenticação
-    } catch (err: any) {
-      setAuthError(err.message || 'Erro ao autenticar');
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'message' in err) {
+        setAuthError((err as { message?: string }).message || 'Erro ao autenticar');
+      } else {
+        setAuthError('Erro ao autenticar');
+      }
     } finally {
       setLoading(false);
     }
