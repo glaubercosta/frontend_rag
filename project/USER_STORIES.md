@@ -42,6 +42,12 @@
 **Eu quero** configurar uma conexão com minha base de dados (SQLite, PostgreSQL, MySQL)  
 **Para que** eu possa fazer consultas nos meus dados  
 
+**Status atual:**
+- [x] Interface inicial para adicionar/remover conexões por workspace implementada (apenas campo nome)
+- [x] Isolamento de conexões por workspace validado
+- [x] Testes unitários e integração cobrindo CRUD de conexões
+- [ ] Campos detalhados (host, porta, usuário, senha, tipo) e validação serão implementados no próximo ciclo
+
 **Critérios de Aceitação:**
 - [ ] Interface para inserir string de conexão ou parâmetros individuais
 - [ ] Suporte para SQLite, PostgreSQL e MySQL

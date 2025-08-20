@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from 'react';
 import { AuthService } from '../../services/AuthService';
+import PasswordResetForm from './PasswordResetForm';
+
 
 const AuthForm: React.FC = () => {
-  const [mode, setMode] = useState<'login' | 'signup'>('login');
+  const [mode, setMode] = useState<'login' | 'signup' | 'reset'>('login');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [errors, setErrors] = useState<{ email?: string; senha?: string }>({});
@@ -37,6 +39,10 @@ const AuthForm: React.FC = () => {
     }
   };
 
+  if (mode === 'reset') {
+    return <PasswordResetForm onBack={() => setMode('login')} />;
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="email">Email</label>
@@ -55,7 +61,10 @@ const AuthForm: React.FC = () => {
 
       <div>
         {mode === 'login' ? (
-          <button type="button" onClick={() => setMode('signup')}>Criar conta</button>
+          <>
+            <button type="button" onClick={() => setMode('signup')}>Criar conta</button>
+            <button type="button" onClick={() => setMode('reset')}>Esqueci minha senha</button>
+          </>
         ) : (
           <button type="button" onClick={() => setMode('login')}>Já tenho conta</button>
         )}

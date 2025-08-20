@@ -1,35 +1,49 @@
+
+
 import React, { useState } from 'react';
+import DatabaseConnectionForm from './DatabaseConnectionForm';
 
+export type DatabaseConnection = {
+  id: string;
+  type: string;
+  host: string;
+  port: string;
+  user: string;
+  password: string;
+  dbName: string;
+};
 
-export type DbConnection = { id: string; name: string };
+type DbConnection = DatabaseConnection;
+
 
 interface WorkspaceResourceConfigProps {
   dbs: DbConnection[];
   setDbs: React.Dispatch<React.SetStateAction<DbConnection[]>>;
 }
 
+
 const WorkspaceResourceConfig: React.FC<WorkspaceResourceConfigProps> = ({ dbs, setDbs }) => {
   const [adding, setAdding] = useState(false);
-  const [newName, setNewName] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editName, setEditName] = useState('');
 
-  const handleAdd = () => {
-    if (newName.trim()) {
-      setDbs([...dbs, { id: Date.now().toString(), name: newName }]);
-      setNewName('');
-      setAdding(false);
-    }
+  const handleAdd = (data: Omit<DatabaseConnection, 'id'>) => {
+    setDbs([
+      ...dbs,
+      { ...data, id: Date.now().toString() },
+    ]);
+    setAdding(false);
   };
-  const handleEdit = (id: string, name: string) => {
+
+  const handleEdit = (id: string) => {
     setEditingId(id);
-    setEditName(name);
   };
-  const handleSave = (id: string) => {
-    setDbs(dbs.map(db => db.id === id ? { ...db, name: editName } : db));
+
+  const handleEditSave = (data: Omit<DatabaseConnection, 'id'>) => {
+    if (!editingId) return;
+    setDbs(dbs.map(db => db.id === editingId ? { ...db, ...data, id: editingId } : db));
     setEditingId(null);
-    setEditName('');
   };
+
   const handleDelete = (id: string) => {
     setDbs(dbs.filter(db => db.id !== id));
   };
@@ -39,30 +53,22 @@ const WorkspaceResourceConfig: React.FC<WorkspaceResourceConfigProps> = ({ dbs, 
       <h2>Database Connections</h2>
       <button onClick={() => setAdding(true)}>Add Database</button>
       {adding && (
-        <div>
-          <input
-            placeholder="Database name"
-            value={newName}
-            onChange={e => setNewName(e.target.value)}
-          />
-          <button onClick={handleAdd}>Save</button>
-        </div>
+        <DatabaseConnectionForm
+          onSave={data => handleAdd(data)}
+        />
       )}
       <ul>
         {dbs.map(db => (
           <li key={db.id}>
             {editingId === db.id ? (
-              <>
-                <input
-                  value={editName}
-                  onChange={e => setEditName(e.target.value)}
-                />
-                <button onClick={() => handleSave(db.id)}>Save</button>
-              </>
+              <DatabaseConnectionForm
+                onSave={data => handleEditSave(data)}
+                // Optionally, you could prefill the form with db's data by extending DatabaseConnectionForm
+              />
             ) : (
               <>
-                {db.name}
-                <button onClick={() => handleEdit(db.id, db.name)}>Edit</button>
+                {db.dbName}
+                <button onClick={() => handleEdit(db.id)}>Edit</button>
                 <button onClick={() => handleDelete(db.id)}>Delete</button>
               </>
             )}

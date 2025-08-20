@@ -1,3 +1,16 @@
+// Mock FileSaver and window.URL.createObjectURL for export tests
+import * as fileSaver from 'file-saver';
+
+Object.defineProperty(window, 'URL', {
+  value: {
+    createObjectURL: jest.fn(() => 'blob:http://localhost/blobid'),
+    revokeObjectURL: jest.fn(),
+  },
+});
+
+jest.mock('file-saver', () => ({
+  saveAs: jest.fn(),
+}));
 import '@testing-library/jest-dom'
 
 // Mock Next.js router

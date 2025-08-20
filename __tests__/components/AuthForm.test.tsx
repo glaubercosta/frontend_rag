@@ -24,10 +24,18 @@ describe('AuthForm', () => {
     expect(await screen.findByText(/senha obrigatória/i)).toBeInTheDocument();
   });
 
+
   it('deve alternar para o modo cadastro', () => {
     render(<AuthForm />);
-    fireEvent.click(screen.getByText(/criar conta|cadastro/i));
+    fireEvent.click(screen.getByRole('button', { name: /criar conta/i }));
     expect(screen.getByRole('button', { name: /cadastrar/i })).toBeInTheDocument();
+  });
+
+  it('deve exibir o fluxo de recuperação de senha', () => {
+    render(<AuthForm />);
+    fireEvent.click(screen.getByRole('button', { name: /esqueci minha senha/i }));
+    expect(screen.getByRole('button', { name: /enviar link/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /voltar/i })).toBeInTheDocument();
   });
 
   it('deve exibir mensagem de erro em credenciais inválidas', async () => {

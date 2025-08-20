@@ -12,8 +12,11 @@ describe('WorkspaceManager + WorkspaceResourceConfig integration', () => {
     // Adiciona conexão de banco
     const addDbBtn = screen.getByRole('button', { name: /add database/i });
     fireEvent.click(addDbBtn);
-    const dbInput = await screen.findByPlaceholderText(/database name/i);
-    fireEvent.change(dbInput, { target: { value: 'DB_WS1' } });
+  const dbInput = await screen.findByLabelText(/database name/i);
+  fireEvent.change(dbInput, { target: { value: 'DB_WS1' } });
+  // Fill required fields
+  fireEvent.change(screen.getByLabelText(/host/i), { target: { value: 'localhost' } });
+  fireEvent.change(screen.getByLabelText(/user/i), { target: { value: 'admin' } });
     const saveBtn = screen.getByRole('button', { name: /save/i });
     fireEvent.click(saveBtn);
     expect(await screen.findByText('DB_WS1')).toBeInTheDocument();
