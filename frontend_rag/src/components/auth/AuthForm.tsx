@@ -1,13 +1,11 @@
 "use client";
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { AuthService } from '../../services/AuthService';
 import PasswordResetForm from './PasswordResetForm';
 
 
 const AuthForm: React.FC = () => {
   const [mode, setMode] = useState<'login' | 'signup' | 'reset'>('login');
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [errors, setErrors] = useState<{ email?: string; senha?: string }>({});
@@ -29,8 +27,7 @@ const AuthForm: React.FC = () => {
       } else {
         await AuthService.signup(email, senha);
       }
-      // Redireciona para a página de workspaces após login/cadastro
-      router.push('/workspaces');
+      // Aqui você pode redirecionar ou atualizar o estado global de autenticação
     } catch (err: unknown) {
       if (err && typeof err === 'object' && 'message' in err) {
         setAuthError((err as { message?: string }).message || 'Erro ao autenticar');

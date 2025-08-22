@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
+
 import WorkspaceResourceConfig, { DbConnection } from './WorkspaceResourceConfig';
-import WorkspaceLLMConfig from './WorkspaceLLMConfig';
+import WorkspaceLLMConfig, { LLMConfig } from './WorkspaceLLMConfig';
 
 type Workspace = { id: string; name: string };
 
@@ -42,6 +43,7 @@ const WorkspaceManager: React.FC<WorkspaceManagerProps> = ({ workspaces = [] }) 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   // Estado de recursos por workspace
   const [resources, setResources] = useState<Record<string, DbConnection[]>>({});
+  const [llms, setLlms] = useState<Record<string, LLMConfig[]>>({});
 
   return (
     <div>
@@ -82,11 +84,22 @@ const WorkspaceManager: React.FC<WorkspaceManagerProps> = ({ workspaces = [] }) 
           <h3>Resources for workspace: {list.find(ws => ws.id === selectedId)?.name}</h3>
           <WorkspaceResourceConfig
             dbs={resources[selectedId] || []}
-            setDbs={newDbs => setResources(r => ({ ...r, [selectedId]: newDbs }))}
+            setDbs={newDbs =>
+              setResources(r => ({
+                ...r,
+                [selectedId]: typeof newDbs === 'function' ? newDbs(r[selectedId] || []) : newDbs
+              }))
+            }
           />
-          <div style={{ marginTop: 32 }}>
-            <WorkspaceLLMConfig workspaceId={selectedId} />
-          </div>
+          <WorkspaceLLMConfig
+            llms={llms[selectedId] || []}
+            setLlms={newLlms =>
+              setLlms(r => ({
+                ...r,
+                [selectedId]: typeof newLlms === 'function' ? newLlms(r[selectedId] || []) : newLlms
+              }))
+            }
+          />
         </div>
       )}
     </div>

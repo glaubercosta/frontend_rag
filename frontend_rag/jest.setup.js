@@ -1,11 +1,4 @@
 // Mock FileSaver and window.URL.createObjectURL for export tests
-
-// Corrige ambiente Node para URL (axios)
-// Precisa ser require para funcionar em ambiente CommonJS do Jest
-if (typeof global.URL === 'undefined') {
-  // @ts-expect-error jest-axios-node-url: Node.js não define global.URL, necessário para axios
-  global.URL = require('url').URL;
-}
 import * as fileSaver from 'file-saver';
 
 Object.defineProperty(window, 'URL', {

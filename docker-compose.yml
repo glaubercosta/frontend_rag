@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend_rag/frontend_rag
+    container_name: frontend_rag
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
+    networks:
+      - ragnet
+
+  backend:
+    build:
+      context: ./backend_rag
+    container_name: backend_rag
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=example
+      - DB_NAME=ragdb
+    depends_on:
+      - db
+    networks:
+      - ragnet
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_rag
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: ragdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - ragnet
+
+volumes:
+  mysql_data:
+
+networks:
+  ragnet:
+    driver: bridge
